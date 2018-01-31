@@ -18,6 +18,6 @@
     "homebridge": ">=0.2.5"
   },
   "dependencies": {
-    "axios": "^0.9.1",
+    "axios": "^0.9.1"
   }
 }
