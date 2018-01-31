@@ -1,0 +1,23 @@
+{
+  "name": "homebridge-juicebox",
+  "description": "Juicebox plugin for homebridge",
+  "version": "0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/datariot/homebridge-juicebox.git"
+  },
+  "license": "MIT",
+  "preferGlobal": true,
+  "keywords": [
+    "homebridge-plugin",
+    "juicebox",
+    "emotorwerks"
+  ],
+  "engines": {
+    "node": ">=0.12.0",
+    "homebridge": ">=0.2.5"
+  },
+  "dependencies": {
+    "axios": "^0.9.1",
+  }
+}
