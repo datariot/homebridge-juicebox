@@ -119,7 +119,7 @@ JuiceBoxAccessory.prototype.getLowBattery = function(callback) {
             token: this.device_token
         })
         .then(function(response) {
-            return 0;
+            console.log(response);
         })
         .catch(function(error) {
             console.log(error);
