@@ -23,6 +23,7 @@ function JuiceBoxAccessory(log, config) {
     });
 
     this.batteryService = new Service.BatteryService(this.name);
+    console.log(this.batteryService);
 
     this.batteryService
         .getCharacteristic(Characteristic.ChargingState)
@@ -48,7 +49,7 @@ JuiceBoxAccessory.prototype.getServices = function() {
 
 JuiceBoxAccessory.prototype.getChargingState = function(callback) {
     this.log("Getting current state...");
-    axios.post('/box_api_secure', {
+    this.juicenet.post('/box_api_secure', {
             cmd: "get_state",
             account_token: this.account_token,
             device_id: "datariot.test",
@@ -64,7 +65,7 @@ JuiceBoxAccessory.prototype.getChargingState = function(callback) {
 
 JuiceBoxAccessory.prototype.getContactState = function(callback) {
     this.log("Getting contact state...");
-    axios.post('/box_api_secure', {
+    this.juicenet.post('/box_api_secure', {
             cmd: "get_state",
             account_token: this.account_token,
             device_id: "datariot.test",
@@ -80,7 +81,7 @@ JuiceBoxAccessory.prototype.getContactState = function(callback) {
 
 JuiceBoxAccessory.prototype.getBatteryLevel = function(callback) {
     this.log("Getting battery level ...");
-    axios.post('/box_api_secure', {
+    this.juicenet.post('/box_api_secure', {
             cmd: "get_state",
             account_token: this.account_token,
             device_id: "datariot.test",
