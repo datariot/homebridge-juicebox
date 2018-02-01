@@ -1,6 +1,6 @@
-const util = require('util');
-const request = require('request');
-const Service, Characteristic;
+var util = require('util');
+var request = require('request');
+var Service, Characteristic;
 
 module.exports = function(homebridge) {
     Service = homebridge.hap.Service;
