@@ -28,10 +28,12 @@ function JuiceBoxAccessory(log, config) {
         .getCharacteristic(Characteristic.ChargingState)
         .on('get', this.getChargingState.bind(this));
 
-    // this.batteryService
-    //     .getCharacteristic(Characteristic.ContactSensorState)
-    //     .on('get', this.getContactState.bind(this));
-    //
+    this.plugService = new Service.OutletService(this.name);
+
+    this.plugService
+        .getCharacteristic(Characteristic.ContactSensorState)
+        .on('get', this.getContactState.bind(this));
+
     // this.batteryService
     //     .getCharacteristic(Characteristic.BatteryLevel)
     //     .on('get', this.getBatteryLevel.bind(this));
@@ -57,9 +59,9 @@ JuiceBoxAccessory.prototype.getChargingState = function(callback) {
         .then(function(response) {
             console.log(response.data.state);
             if (response.data.state === "standby") {
-                return 0
+                return Characteristic.ChargingState.none
             } else {
-                return 1
+                return Characteristic.ChargingState.inProgress
             };
         })
         .catch(function(error) {
@@ -76,7 +78,12 @@ JuiceBoxAccessory.prototype.getContactState = function(callback) {
             token: this.device_token
         })
         .then(function(response) {
-            console.log(response.data);
+            console.log(response.data.state);
+            if (response.data.state === "standby") {
+                return Characteristic.ContactState.none
+            } else {
+                return Characteristic.ChargingState.detected
+            };
         })
         .catch(function(error) {
             console.log(error);
