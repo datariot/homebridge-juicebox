@@ -22,11 +22,11 @@ function JuiceBoxAccessory(log, config) {
         }
     });
 
-    this.batteryService = new Service.BatteryService(this.name);
-
-    this.batteryService
-        .getCharacteristic(Characteristic.ChargingState)
-        .on('get', this.getChargingState.bind(this));
+    // this.batteryService = new Service.BatteryService(this.name);
+    //
+    // this.batteryService
+    //     .getCharacteristic(Characteristic.ChargingState)
+    //     .on('get', this.getChargingState.bind(this));
 
     this.plugService = new Service.Outlet(this.name);
 
@@ -41,7 +41,7 @@ function JuiceBoxAccessory(log, config) {
 }
 
 JuiceBoxAccessory.prototype.getServices = function() {
-    return [this.batteryService];
+    return [this.plugService];
 }
 
 //
