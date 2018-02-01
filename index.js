@@ -31,7 +31,7 @@ function JuiceBoxAccessory(log, config) {
     this.plugService = new Service.Outlet(this.name);
 
     this.plugService
-        .getCharacteristic(Characteristic.ContactSensorState)
+        .getCharacteristic(Characteristic.OutletInUse)
         .on('get', this.getContactState.bind(this));
 
     // this.batteryService
@@ -80,9 +80,9 @@ JuiceBoxAccessory.prototype.getContactState = function(callback) {
         .then(function(response) {
             console.log(response.data.state);
             if (response.data.state === "standby") {
-                return Characteristic.ContactState.none
+                return false
             } else {
-                return Characteristic.ChargingState.detected
+                return true
             };
         })
         .catch(function(error) {
