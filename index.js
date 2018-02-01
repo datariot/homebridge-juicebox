@@ -1,5 +1,5 @@
 var util = require('util');
-var request = require('axios');
+var axios = require('axios');
 var Service, Characteristic;
 
 module.exports = function(homebridge) {
