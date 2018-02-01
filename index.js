@@ -45,7 +45,7 @@ function JuiceBoxAccessory(log, config) {
 }
 
 JuiceBoxAccessory.prototype.getServices = function() {
-    return [this.plugService, this.batteryService];
+    return [this.plugService];
 }
 
 //
