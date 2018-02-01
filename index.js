@@ -30,7 +30,7 @@ function JuiceBoxAccessory(log, config) {
         .on('get', this.getChargingState.bind(this));
 
     this.batteryService
-        .getCharacteristic(Characteristic.ContactState)
+        .getCharacteristic(Characteristic.ContactSensorState)
         .on('get', this.getContactState.bind(this));
 
     this.batteryService
