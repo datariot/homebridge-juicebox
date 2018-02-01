@@ -28,7 +28,7 @@ function JuiceBoxAccessory(log, config) {
         .getCharacteristic(Characteristic.ChargingState)
         .on('get', this.getChargingState.bind(this));
 
-    this.plugService = new Service.OutletService(this.name);
+    this.plugService = new Service.Outlet(this.name);
 
     this.plugService
         .getCharacteristic(Characteristic.ContactSensorState)
