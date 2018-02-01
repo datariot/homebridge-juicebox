@@ -55,7 +55,7 @@ JuiceBoxAccessory.prototype.getChargingState = function(callback) {
             token: this.device_token
         })
         .then(function(response) {
-            if response.data.status === "standby" {
+            if (response.data.status === "standby") {
                 return 0
             } else {
                 return 1
