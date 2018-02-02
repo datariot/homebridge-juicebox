@@ -28,9 +28,9 @@ function JuiceBoxAccessory(log, config) {
         .getCharacteristic(Characteristic.ChargingState)
         .on('get', this.getChargingState.bind(this));
 
-    this.batteryService
-        .getCharacteristic(Characteristic.StatusLowBattery)
-        .on('get', this.getLowBattery.bind(this));
+    // this.batteryService
+    //     .getCharacteristic(Characteristic.StatusLowBattery)
+    //     .on('get', this.getLowBattery.bind(this));
 
     this.batteryService
         .getCharacteristic(Characteristic.BatteryLevel)
