@@ -22,19 +22,33 @@ function JuiceBoxAccessory(log, config) {
         }
     });
 
-    this.batteryService = new Service.BatteryService(this.name);
+    this.informationService = new Service.AccessoryInformation()
+    this.informationService
+        .setCharacteristic(Characteristic.Manufacturer, 'eMotorWerks')
+        .setCharacteristic(Characteristic.Model, 'JuiceBox')
+        .setCharacteristic(Characteristic.SerialNumber, '123-456-789')
 
-    this.batteryService
-        .getCharacteristic(Characteristic.ChargingState)
-        .on('get', this.getChargingState.bind(this));
-
-    // this.batteryService
-    //     .getCharacteristic(Characteristic.StatusLowBattery)
-    //     .on('get', this.getLowBattery.bind(this));
+    this.batteryService = new Service.BatteryService(this.name)
 
     this.batteryService
         .getCharacteristic(Characteristic.BatteryLevel)
-        .on('get', this.getBatteryLevel.bind(this));
+        .setProps({
+            maxValue: 100,
+            minValue: 0,
+            minStep: 1
+        })
+        .on('get', this.getBatteryLevel.bind(this))
+
+    this.batteryService
+        .getCharacteristic(Characteristic.ChargingState)
+        .setProps({
+            maxValue: 1
+        })
+        .on('get', this.getChargingState.bind(this))
+
+    this.batteryService
+        .getCharacteristic(Characteristic.StatusLowBattery)
+        .on('get', this.getLowBatteryStatus.bind(this))
 
     this.plugService = new Service.Outlet(this.name);
 
@@ -59,11 +73,12 @@ JuiceBoxAccessory.prototype.getOutletInUse = function(callback) {
         })
         .then(function(response) {
             console.log(response.data.state);
-            if (response.data.state === "standby") {
-                return false
-            } else {
-                return true
-            };
+            switch (response.data.state) {
+                case 'standby':
+                    return callback(null, false)
+                default:
+                    return callback(null, true)
+            }
         })
         .catch(function(error) {
             console.log(error);
@@ -83,12 +98,12 @@ JuiceBoxAccessory.prototype.getChargingState = function(callback) {
             token: this.device_token
         })
         .then(function(response) {
-            console.log(response.data.state);
-            if (response.data.state === "standby") {
-                return Characteristic.ChargingState.none
-            } else {
-                return Characteristic.ChargingState.inProgress
-            };
+            switch (response.data.state) {
+                case 'standby':
+                    return callback(null, 1)
+                default:
+                    return callback(null, 0)
+            }
         })
         .catch(function(error) {
             console.log(error);
@@ -98,33 +113,33 @@ JuiceBoxAccessory.prototype.getChargingState = function(callback) {
 JuiceBoxAccessory.prototype.getBatteryLevel = function(callback) {
     this.log("Getting battery level ...");
     return 100;
-    // this.juicenet.post('/box_api_secure', {
-    //         cmd: "get_state",
-    //         account_token: this.account_token,
-    //         device_id: "datariot.test",
-    //         token: this.device_token
-    //     })
-    //     .then(function(response) {
-    //         return 100;
-    //     })
-    //     .catch(function(error) {
-    //         console.log(error);
-    //     });
+    this.juicenet.post('/box_api_secure', {
+            cmd: "get_state",
+            account_token: this.account_token,
+            device_id: "datariot.test",
+            token: this.device_token
+        })
+        .then(function(response) {
+            return callback(null, 100);
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
 }
 
 JuiceBoxAccessory.prototype.getLowBattery = function(callback) {
     this.log("Getting low battery level ...");
     return 0;
-    // this.juicenet.post('/box_api_secure', {
-    //         cmd: "get_state",
-    //         account_token: this.account_token,
-    //         device_id: "datariot.test",
-    //         token: this.device_token
-    //     })
-    //     .then(function(response) {
-    //         return 0
-    //     })
-    //     .catch(function(error) {
-    //         console.log(error);
-    //     });
+    this.juicenet.post('/box_api_secure', {
+            cmd: "get_state",
+            account_token: this.account_token,
+            device_id: "datariot.test",
+            token: this.device_token
+        })
+        .then(function(response) {
+            return callback(null, 0);
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
 }
