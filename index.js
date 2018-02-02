@@ -97,32 +97,34 @@ JuiceBoxAccessory.prototype.getChargingState = function(callback) {
 
 JuiceBoxAccessory.prototype.getBatteryLevel = function(callback) {
     this.log("Getting battery level ...");
-    this.juicenet.post('/box_api_secure', {
-            cmd: "get_state",
-            account_token: this.account_token,
-            device_id: "datariot.test",
-            token: this.device_token
-        })
-        .then(function(response) {
-            return 100;
-        })
-        .catch(function(error) {
-            console.log(error);
-        });
+    return 100;
+    // this.juicenet.post('/box_api_secure', {
+    //         cmd: "get_state",
+    //         account_token: this.account_token,
+    //         device_id: "datariot.test",
+    //         token: this.device_token
+    //     })
+    //     .then(function(response) {
+    //         return 100;
+    //     })
+    //     .catch(function(error) {
+    //         console.log(error);
+    //     });
 }
 
 JuiceBoxAccessory.prototype.getLowBattery = function(callback) {
     this.log("Getting low battery level ...");
-    this.juicenet.post('/box_api_secure', {
-            cmd: "get_state",
-            account_token: this.account_token,
-            device_id: "datariot.test",
-            token: this.device_token
-        })
-        .then(function(response) {
-            return 0
-        })
-        .catch(function(error) {
-            console.log(error);
-        });
+    return 0;
+    // this.juicenet.post('/box_api_secure', {
+    //         cmd: "get_state",
+    //         account_token: this.account_token,
+    //         device_id: "datariot.test",
+    //         token: this.device_token
+    //     })
+    //     .then(function(response) {
+    //         return 0
+    //     })
+    //     .catch(function(error) {
+    //         console.log(error);
+    //     });
 }
