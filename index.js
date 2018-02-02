@@ -40,12 +40,34 @@ function JuiceBoxAccessory(log, config) {
 
     this.plugService
         .getCharacteristic(Characteristic.OutletInUse)
-        .on('get', this.getContactState.bind(this));
+        .on('get', this.getOutletInUse.bind(this));
 
 }
 
 JuiceBoxAccessory.prototype.getServices = function() {
-    return [this.plugService];
+    return [this.plugService, this.batteryService];
+}
+
+// Plug State
+JuiceBoxAccessory.prototype.getOutletInUse = function(callback) {
+    this.log("Getting contact state...");
+    this.juicenet.post('/box_api_secure', {
+            cmd: "get_state",
+            account_token: this.account_token,
+            device_id: "datariot.test",
+            token: this.device_token
+        })
+        .then(function(response) {
+            console.log(response.data.state);
+            if (response.data.state === "standby") {
+                return false
+            } else {
+                return true
+            };
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
 }
 
 //
@@ -66,27 +88,6 @@ JuiceBoxAccessory.prototype.getChargingState = function(callback) {
                 return Characteristic.ChargingState.none
             } else {
                 return Characteristic.ChargingState.inProgress
-            };
-        })
-        .catch(function(error) {
-            console.log(error);
-        });
-}
-
-JuiceBoxAccessory.prototype.getContactState = function(callback) {
-    this.log("Getting contact state...");
-    this.juicenet.post('/box_api_secure', {
-            cmd: "get_state",
-            account_token: this.account_token,
-            device_id: "datariot.test",
-            token: this.device_token
-        })
-        .then(function(response) {
-            console.log(response.data.state);
-            if (response.data.state === "standby") {
-                return false
-            } else {
-                return true
             };
         })
         .catch(function(error) {
