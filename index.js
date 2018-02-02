@@ -127,7 +127,7 @@ JuiceBoxAccessory.prototype.getBatteryLevel = function(callback) {
         });
 }
 
-JuiceBoxAccessory.prototype.getLowBattery = function(callback) {
+JuiceBoxAccessory.prototype.getLowBatteryStatus = function(callback) {
     this.log("Getting low battery level ...");
     return 0;
     this.juicenet.post('/box_api_secure', {
